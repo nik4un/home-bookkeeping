@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { UserService } from '../../shared/services/user.service';
-import { Message } from '../../shared/services/models/message.model';
-
+import { UsersService } from '../../shared/services/users.service';
+import { Message } from '../../shared/models/message.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'hb-login',
@@ -16,7 +17,9 @@ export class LoginComponent implements OnInit {
   message: Message;
 
   constructor(
-    private userService: UserService
+    private usersService: UsersService,
+    private authService: AuthService,
+    private router: Router //для реализации роутинга
   ) { }
 
   ngOnInit() {
@@ -43,12 +46,23 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const formData = this.form.value;
 
-    this.userService.
+    this.usersService.
       getUserByEmail(formData.email)
       .subscribe((data) => {
         if (data[0]) {
           if (data[0].password === formData.password) {
-            //
+            this.message.text = '';
+            // window.localStorage.setItem принимает две строки ключ и значение
+            // JSON.stringify(obj) - оборачивает объект obj в строку
+            const user = {
+              'id': data[0].id,
+              'name': data[0].name
+            };
+            window.localStorage.setItem('user', JSON.stringify(user));
+            this.authService.login();
+            // редирект на
+            // this.router.navigate(['']);
+            console.log('редирект на страницу регистрации');
           } else {
             this.showMessage(`Пароль не верный`);
           }
