@@ -5,6 +5,12 @@
       "email": "null@mail.ru",
       "password": "12345678",
       "name": "Администратор"
+    },
+    {
+      "email": "ussr@mail.ru",
+      "password": "rteryeryrtyer",
+      "name": "NoName",
+      "id": 2
     }
   ],
   "bill": {

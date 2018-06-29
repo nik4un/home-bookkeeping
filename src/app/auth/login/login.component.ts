@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { UsersService } from '../../shared/services/users.service';
 import { Message } from '../../shared/models/message.model';
@@ -15,25 +15,35 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup; // передаем эту переменную в шаблон в тег form в качестве параметра для бандинга
   message: Message;
+  private nameInit = 'null@mail.ru';
 
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
-    private router: Router //для реализации роутинга
+    private router: Router, // для реализации роутинга
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.message = new Message( '', '');
+    this.route.queryParams
+      .subscribe((params: Params) => {
+        console.log('Params:', JSON.stringify(params));
+        if (params['login']) {
+          this.showMessage('Теперь вы можете зайти в систему', 'success');
+          this.nameInit = params['login'];
+        }
+      });
     this.form = new FormGroup({
       // создаем необходимые контролы, в нашем случае - это email, password (id в форме)
       // записываем через строку, чтобы при минификации не исказились имена
       // параметры: начальное значение и валидатор формы
-      'email': new FormControl('null@mail.ru',
+      'email': new FormControl(`${this.nameInit}`,
         [Validators.required, Validators.email]),
       'password': new FormControl(null,
         [Validators.required, Validators.minLength(6)])
         // minLength - минимальная длина вводимой информации
     });
-    this.message = new Message( 'danger', '');
   }
 
   private showMessage( text: string, type: string = 'danger') {
