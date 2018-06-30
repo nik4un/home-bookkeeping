@@ -19,6 +19,7 @@
       >
       <span *ngIf="form.get('email')['errors']['required']">Поле обязательно для заполнения</span>
       <span *ngIf="form.get('email')['errors']['email']">Некорректный email</span>
+      <span *ngIf="form.get('email')['errors']['forbiddenEmail']">Ползователь с этим email уже существует</span>
     </span>
     </div>
     <div

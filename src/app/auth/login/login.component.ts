@@ -28,9 +28,8 @@ export class LoginComponent implements OnInit {
     this.message = new Message( '', '');
     this.route.queryParams
       .subscribe((params: Params) => {
-        console.log('Params:', JSON.stringify(params));
         if (params['login']) {
-          this.showMessage('Теперь вы можете зайти в систему', 'success');
+          this.showMessage('Теперь вы можете войти в систему', 'success');
           this.nameInit = params['login'];
         }
       });
@@ -72,7 +71,7 @@ export class LoginComponent implements OnInit {
             this.authService.login();
             // редирект на
             // this.router.navigate(['']);
-            console.log('редирект на страницу регистрации');
+            console.log('редирект на страницу приложения');
           } else {
             this.showMessage(`Пароль не верный`);
           }

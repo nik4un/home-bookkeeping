@@ -24,7 +24,7 @@ export class RegistrationComponent implements OnInit {
     this.form = new FormGroup({
       // создаем необходимые контролы
       'email': new FormControl('ussr@mail.ru',
-        [Validators.required, Validators.email]),
+        [Validators.required, Validators.email], this.forbiddenEmails.bind(this)),
       'password': new FormControl(null,
         [Validators.required, Validators.minLength(6)]),
       'name': new FormControl('NoName',
@@ -46,5 +46,18 @@ export class RegistrationComponent implements OnInit {
           queryParams: { login: data['email'] }
       });
       });
+  }
+
+  forbiddenEmails(control: FormControl): Promise<any> {
+    return  new Promise<any>((resolve, reject) => {
+      this.usersService.getUserByEmail(control.value)
+        .subscribe((data: Array) => {
+          if (data[0]) {
+            resolve({forbiddenEmail: true}); // объект для асинхронного валидатора
+          } else {
+            resolve(null); // проверяемый email в базе не зарегистрирован
+          }
+        }
+    });
   }
 }
