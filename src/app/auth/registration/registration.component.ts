@@ -49,15 +49,15 @@ export class RegistrationComponent implements OnInit {
   }
 
   forbiddenEmails(control: FormControl): Promise<any> {
-    return  new Promise<any>((resolve, reject) => {
+    return  new Promise<any>((resolve) => {
       this.usersService.getUserByEmail(control.value)
-        .subscribe((data: Array) => {
+        .subscribe((data: Array<User>) => {
           if (data[0]) {
             resolve({forbiddenEmail: true}); // объект для асинхронного валидатора
           } else {
             resolve(null); // проверяемый email в базе не зарегистрирован
           }
-        }
+        });
     });
   }
 }

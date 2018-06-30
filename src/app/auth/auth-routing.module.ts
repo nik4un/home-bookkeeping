@@ -10,13 +10,13 @@ const routes: Routes = [
       // при заходе на гланую страницу, будет происходить редирект на login
       { path: '', redirectTo: '/login', pathMatch: 'full'/*указыввает, что путь абсолютный*/  },
       { path: 'login', component: LoginComponent },
-      { path: 'registration', component: RegistrationComponent },
-      { path: '**', redirectTo: '/login'}
+      { path: 'registration', component: RegistrationComponent }
+      // { path: '**', redirectTo: '/login'}
     ]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], // регисрация дочерних модулей
+  imports: [RouterModule.forChild(routes)], // регистрация дочерних модулей
   exports: [RouterModule]
 })
 export class AuthRoutingModule {} // этот класс надо зарегистрировать в auth модуле
