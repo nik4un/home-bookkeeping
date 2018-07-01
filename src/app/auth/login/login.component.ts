@@ -69,9 +69,8 @@ export class LoginComponent implements OnInit {
             };
             window.localStorage.setItem('user', JSON.stringify(user));
             this.authService.login();
-            // редирект на
-            // this.router.navigate(['']);
-            console.log('редирект на страницу приложения');
+            // редирект на главную страницу приложения модуля system
+            this.router.navigate(['/system', 'bill']);
           } else {
             this.showMessage(`Пароль не верный`);
           }
