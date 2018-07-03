@@ -16,6 +16,6 @@ export class BillService extends BaseApi {
   }
 
   getCurrency() {
-    return  this.http.post(`http://data.fixer.io/api/latest?access_key=4a109de1373aedeaa04092ead9b7b012&symbols=RUB,USD,EUR,BTC`);
+    return  this.http.get(`http://data.fixer.io/api/latest?access_key=4a109de1373aedeaa04092ead9b7b012&symbols=RUB,USD,EUR,BTC`);
   }
 }
