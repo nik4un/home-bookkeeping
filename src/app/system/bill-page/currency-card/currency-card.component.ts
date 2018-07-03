@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CurrencyCardComponent implements OnInit {
 
-  @Input() currency: object;
+  @Input() currency: any;
 
   dollarRate: number;
   euroRate: number;
@@ -16,7 +16,7 @@ export class CurrencyCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    const { date, rates } = this.currency;
+    const { rates } = this.currency;
     this.euroRate = rates['RUB'];
     this.dollarRate = rates['RUB'] / rates['USD'];
     this.bcRate = rates['RUB'] / rates['USD'] / rates['BTC'];

@@ -10,18 +10,17 @@ import { Bill } from '../../shared/models/bill.model';
 export class BillCardComponent implements OnInit {
 
   @Input() bill: Bill;
-  @Input() currency: object;
+  @Input() currency: any;
 
   dollar: number;
-  euro: number
+  euro: number;
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.currency);
     const { rates } = this.currency;
-    this.dollar = this.bill.value / rates['RUB'] / rates['USD'];
-    this.euro = this.bill.value / rates['RUB'] / rates['EUR'];
+    this.euro = this.bill.value / rates['RUB'] * rates['EUR'];
+    this.dollar = this.bill.value / rates['RUB'] * rates['USD'];
   }
 
 }

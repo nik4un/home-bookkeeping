@@ -32,9 +32,9 @@ export class BillPageComponent implements OnInit, OnDestroy {
         rates: {'RUB': 73.739646, 'USD': 1.165229, 'EUR': 1, 'BTC': 0.000176},
         success: true,
         timestamp: 1530545348,
-      }; // data[1];
+      };
+      // this.currency = data[1];
       this.isLoaded = true;
-      console.log(data);
     });
   }
 

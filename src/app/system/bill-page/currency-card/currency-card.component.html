@@ -17,17 +17,17 @@
           <tr>
             <td>доллар</td>
             <td>{{ dollarRate | number:'1.2-2' }}</td>
-            <td>12.12.2017</td>
+            <td>{{ currency.date | hbMoment: 'YYYY-MM-DD'}}</td>
           </tr>
           <tr>
             <td>евро</td>
             <td>{{ euroRate | number:'1.2-2' }}</td>
-            <td>12.12.2017</td>
+            <td>{{ currency.date | hbMoment: 'YYYY-MM-DD'}}</td>
           </tr>
           <tr>
             <td>биткоин</td>
             <td>{{ bcRate | number:'1.2-2' }}</td>
-            <td>12.12.2017</td>
+            <td>{{ currency.date | hbMoment: 'YYYY-MM-DD'}}</td>
           </tr>
           </tbody>
         </table>
