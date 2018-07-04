@@ -7,7 +7,7 @@
 <section class="section">
   <div class="row">
     <hb-add-event></hb-add-event>
-    <hb-add-category></hb-add-category>
+    <hb-add-category (categoryAdd)="newCategoryAdded($event)"></hb-add-category>
   </div>
   <div class="row">
     <hb-edit-category></hb-edit-category>

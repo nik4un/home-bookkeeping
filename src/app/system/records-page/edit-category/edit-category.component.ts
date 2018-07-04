@@ -11,5 +11,4 @@ export class EditCategoryComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
