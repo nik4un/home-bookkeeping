@@ -28,7 +28,7 @@ export class BillPageComponent implements OnInit, OnDestroy {
       this.bill = data[0];
       this.currency = {
         base: 'EUR',
-        date: '2018-07-03',
+        date: '2018-07-04',
         rates: {'RUB': 73.739646, 'USD': 1.165229, 'EUR': 1, 'BTC': 0.000176},
         success: true,
         timestamp: 1530545348,
@@ -48,6 +48,8 @@ export class BillPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
+    if (this.sub2) {
+      this.sub2.unsubscribe();
+    }
   }
 }
