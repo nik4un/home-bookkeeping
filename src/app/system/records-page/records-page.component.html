@@ -4,12 +4,19 @@
   </h3>
 </div>
 
-<section class="section">
+<section
+  *ngIf="isLoaded; else isNotLoaded"
+  class="section"
+>
   <div class="row">
     <hb-add-event></hb-add-event>
     <hb-add-category (categoryAdd)="newCategoryAdded($event)"></hb-add-category>
   </div>
   <div class="row">
-    <hb-edit-category></hb-edit-category>
+    <hb-edit-category
+      [categories]="categories"
+      (categoryEdit)="onCategoryEdit($event)"
+    ></hb-edit-category>
   </div>
 </section>
+<ng-template #isNotLoaded>Loading...</ng-template>

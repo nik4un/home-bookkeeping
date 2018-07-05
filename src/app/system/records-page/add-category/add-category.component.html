@@ -6,9 +6,13 @@
       </div>
     </div>
     <div class="card-block">
+      <div
+        *ngIf="message.text"
+        class="alert alert-{{ message.type }}"
+      >{{ message.text }}</div>
       <form
-        #form="ngForm"
-        (ngSubmit)="onSubmit(form)"
+        #formdata="ngForm"
+        (ngSubmit)="onSubmit(formdata)"
       >
         <div
           class="form-group"

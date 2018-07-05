@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BillService } from '../shared/services/bill.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { Bill } from '../shared/models/bill.model';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'hb-bill-page',
@@ -24,7 +25,8 @@ export class BillPageComponent implements OnInit, OnDestroy {
     return combineLatest(
       this.billService.getBill()
       // this.billService.getCurrency()
-    ).subscribe((data) => {
+    ).pipe(delay(150)) // искуственная задержка
+      .subscribe((data) => {
       this.bill = data[0];
       this.currency = {
         base: 'EUR',
