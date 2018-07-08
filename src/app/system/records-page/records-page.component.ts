@@ -17,7 +17,7 @@ export class RecordsPageComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesService.getCategory()
-      .pipe(delay(150)) // искуственная задержка
+      .pipe(delay(250)) // искуственная задержка
       .subscribe((categories: Category[]) => {
         this.categories = categories;
         this.isLoaded = true;

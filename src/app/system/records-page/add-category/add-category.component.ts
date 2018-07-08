@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { CategoriesService } from '../../shared/services/categories.service';
 import { Category } from '../../shared/models/category.model';
@@ -10,10 +11,13 @@ import { Message } from '../../../shared/models/message.model';
   templateUrl: './add-category.component.html',
   styleUrls: ['./add-category.component.scss']
 })
-export class AddCategoryComponent implements  OnInit {
+export class AddCategoryComponent implements  OnInit, OnDestroy {
+
+  message: Message;
+  sub1: Subscription;
 
   @Output() categoryAdd = new EventEmitter<Category>();
-  message: Message;
+
 
   constructor(private categoriesService: CategoriesService) { }
 
@@ -25,7 +29,7 @@ export class AddCategoryComponent implements  OnInit {
     const { name, capacity } = form.value;
     const category = new Category(name, capacity);
 
-    this.categoriesService.addCategory(category)
+    this.sub1 = this.categoriesService.addCategory(category)
       .subscribe((newCategory: Category) => {
         this.categoryAdd.emit(newCategory);
         form.reset();
@@ -33,6 +37,12 @@ export class AddCategoryComponent implements  OnInit {
         this.message.text = 'Категория успешно добавлена.';
         window.setTimeout(() => this.message.text = '', 2000);
       });
+  }
+
+  ngOnDestroy() {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 
 }

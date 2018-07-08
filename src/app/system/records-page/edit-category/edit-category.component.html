@@ -35,7 +35,7 @@
         <div
           class="form-group"
           [ngClass]="{ 'has-error': name.invalid && name.touched}"
-        ><!-- has-error -->
+        >
           <label class="control-label" for="category-name">Отредактируйте название</label>
           <input
             type="text"
@@ -55,7 +55,7 @@
         <div
           class="form-group"
           [ngClass]="{ 'has-error': capacity.viewModel < 1}"
-        ><!-- has-success -->
+        >
           <label class="control-label" for="category-value">Отредактируйте лимит</label>
           <input
             type="number"
