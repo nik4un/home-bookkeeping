@@ -37,28 +37,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>44 444</td>
-              <td>12.12.2017</td>
-              <td>Товары</td>
+            <tr *ngFor="let evt of categoryEvents; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ evt.amount | number:'1.2-2'}}</td>
+              <td>{{ evt.date | hbMoment:'DD.MM.YYYY HH:mm:ss'}}</td>
+              <td>{{ evt.name }}</td>
               <td>
-                <span class="label label-danger">Расход</span>
+                <span class="label label-danger" *ngIf="evt.type === 'outcome'">Расход</span>
+                <span class="label label-success" *ngIf="evt.type === 'income'">Доход</span>
               </td>
               <td class="text-lg-center">
-                <a href="#" class="btn btn-primary-outline">Открыть</a>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>33 333</td>
-              <td>12.12.2017</td>
-              <td>Отдых</td>
-              <td>
-                <span class="label label-success">Доход</span>
-              </td>
-              <td class="text-lg-center">
-                <a href="#" class="btn btn-primary-outline">Открыть</a>
+                <a [routerLink]="['/system/history', evt.id]" class="btn btn-primary-outline">Открыть</a>
               </td>
             </tr>
             </tbody>

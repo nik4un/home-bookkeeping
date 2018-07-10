@@ -7,7 +7,10 @@
 <div *ngIf="isLoaded; else isNotLoaded">
   <hb-history-chart [data]="chartData"></hb-history-chart>
 
-  <hb-history-events></hb-history-events>
+  <hb-history-events
+    [categories]="categories"
+    [categoryEvents]="categoryEvents"
+  ></hb-history-events>
 
   <hb-history-filter></hb-history-filter>
 </div>
