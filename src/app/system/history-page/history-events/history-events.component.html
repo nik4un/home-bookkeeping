@@ -7,20 +7,51 @@
             <h3 class="title">Список событий</h3>
           </div>
           <div class="form-inline pull-right m-r-2">
-            <div class="form-group">
-              <input type="email" class="form-control" placeholder="Поиск...">
-            </div>
-            <div class="btn-group">
-              <button type="button" class="btn btn-secondary dropdown-toggle ">
-                Параметр
+            <div class="type-name">Параметр:</div>
+            <div class="btn-group" hbDropdown>
+              <button type="button" class="btn btn-secondary dropdown-toggle">
+                {{ searchPlaceholder }}
               </button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
+                <a class="dropdown-item" (click)="changeCriteria('date')">Дата</a>
+                <a class="dropdown-item" (click)="changeCriteria('category')">Категория</a>
+                <a class="dropdown-item" (click)="changeCriteria('type')">Тип</a>
+                <a class="dropdown-item" (click)="changeCriteria('amount')">Сумма</a>
               </div>
+            </div>
+            <div
+              [ngSwitch]="searchField"
+              class="form-group field-container"
+            >
+              <input
+                *ngSwitchCase="'date'"
+                type="text"
+                class="form-control"
+                placeholder=" {{ searchPlaceholder }}"
+                [(ngModel)]="searchValue"
+              >
+              <input
+                *ngSwitchCase="'amount'"
+                type="text"
+                class="form-control"
+                placeholder=" {{ searchPlaceholder }}"
+                [(ngModel)]="searchValue"
+              >
+              <select
+                *ngSwitchCase="'category'"
+                [(ngModel)]="searchValue"
+                class="form-control select-field">
+                <option value="">Все</option>
+                <option *ngFor="let l of categories" value="{{ l.name }}">{{ l.name }}</option>
+              </select>
+              <select
+                *ngSwitchCase="'type'"
+                [(ngModel)]="searchValue"
+                class="form-control select-field">
+                <option value="">Все</option>
+                <option value="outcome">Расход</option>
+                <option value="income">Доход</option>
+              </select>
             </div>
           </div>
         </div>
@@ -29,23 +60,23 @@
             <thead>
             <tr>
               <th>#</th>
-              <th>Сумма</th>
               <th>Дата</th>
               <th>Категория</th>
               <th>Тип</th>
+              <th>Сумма</th>
               <th class="text-lg-center">Действие</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let evt of categoryEvents; let i = index">
+            <tr *ngFor="let evt of categoryEvents | hbFilter:searchField:searchValue; let i = index">
               <th scope="row">{{ i + 1 }}</th>
-              <td>{{ evt.amount | number:'1.2-2'}}</td>
               <td>{{ evt.date | hbMoment:'DD.MM.YYYY HH:mm:ss'}}</td>
               <td>{{ evt.name }}</td>
               <td>
                 <span class="label label-danger" *ngIf="evt.type === 'outcome'">Расход</span>
                 <span class="label label-success" *ngIf="evt.type === 'income'">Доход</span>
               </td>
+              <td>{{ evt.amount | number:'1.2-2'}}</td>
               <td class="text-lg-center">
                 <a [routerLink]="['/system/history', evt.id]" class="btn btn-primary-outline">Открыть</a>
               </td>
