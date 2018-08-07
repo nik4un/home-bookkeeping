@@ -31,6 +31,8 @@ export class LoginComponent implements OnInit {
         if (params['login']) {
           this.showMessage('Теперь вы можете войти в систему', 'success');
           this.nameInit = params['login'];
+        } else if (params['accessDenied']) {
+          this.showMessage('Для работы необходимо войти в систему под своим именем', 'warning');
         }
       });
     this.form = new FormGroup({

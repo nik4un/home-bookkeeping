@@ -11,7 +11,7 @@ export class AuthService {
     window.localStorage.clear(); // очистка localStorage при выходе из системы
   }
 
-  isLodgedIn(): boolean {
+  isLoggedIn(): boolean {
     return this.isAuthenticate;
   }
 }
