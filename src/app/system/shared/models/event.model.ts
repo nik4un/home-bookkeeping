@@ -7,5 +7,5 @@ export class CategoryEvent {
     public description: string,
     public id?: number,
     public name?: srting
-  ) { }
+  ) {}
 }
