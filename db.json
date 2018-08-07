@@ -14,7 +14,7 @@
     }
   ],
   "bill": {
-    "value": 100000,
+    "value": 101400,
     "currency": "RUB"
   },
   "categories": [
@@ -63,7 +63,7 @@
       "type": "outcome",
       "amount": 6470,
       "category": 2,
-      "date": "17.06.2018 14:00:58",
+      "date": "04.08.2018 14:00:58",
       "id": 4,
       "description": "Закупка на неделю"
     },
@@ -71,9 +71,17 @@
       "type": "outcome",
       "amount": 7500,
       "category": 3,
-      "date": "10.06.2018 14:01:58",
+      "date": "05.08.2018 14:01:58",
       "id": 5,
       "description": "Заправка + проход ТО"
+    },
+    {
+      "type": "income",
+      "amount": 1400,
+      "category": 1,
+      "date": "07.08.2018 12:42:12",
+      "description": "Подарили кастрюлю",
+      "id": 6
     }
   ]
 }

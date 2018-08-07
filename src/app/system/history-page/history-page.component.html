@@ -1,7 +1,12 @@
 <div class="title-block">
-  <h3 class="title">
+  <h3 class="title pull-left">
     Страница истории <span class="sparkline bar"></span>
   </h3>
+  <div class="pull-right">
+    <button class="btn-sm btn btn-primary-outline" (click)="openFilter()">
+      <i class="fa fa-filter"></i>
+    </button>
+  </div>
 </div>
 
 <div *ngIf="isLoaded; else isNotLoaded">
@@ -9,10 +14,16 @@
 
   <hb-history-events
     [categories]="categories"
-    [categoryEvents]="categoryEvents"
+    [categoryEvents]="filteredEvents"
   ></hb-history-events>
 
-  <hb-history-filter></hb-history-filter>
+  <div *ngIf="isFilterVisible">
+    <hb-history-filter
+      (filterCancel)="onFilterCancel()"
+      (filterApply)="onFilterApply($event)"
+      [categories]="categories"
+    ></hb-history-filter>
+  </div>
 </div>
 <ng-template #isNotLoaded class="text-center">Loading...</ng-template>
 
