@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { UsersService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/user.model';
+import { fadeStateTrigger } from '../../shared/animation/fade.animation';
 
 @Component({
   selector: 'hb-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
+
 })
 export class RegistrationComponent implements OnInit {
   // создаем переменную для работы с формой,

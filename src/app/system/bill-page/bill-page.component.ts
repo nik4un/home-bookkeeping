@@ -25,7 +25,7 @@ export class BillPageComponent implements OnInit, OnDestroy {
     return combineLatest(
       this.billService.getBill()
       // this.billService.getCurrency()
-    ).pipe(delay(2150)) // искуственная задержка
+    ).pipe(delay(150)) // искуственная задержка
       .subscribe((data) => {
       this.bill = data[0];
       this.currency = {
