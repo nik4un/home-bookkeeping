@@ -4,6 +4,7 @@ import { BillService } from '../shared/services/bill.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { Bill } from '../shared/models/bill.model';
 import { delay } from 'rxjs/operators';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'hb-bill-page',
@@ -19,7 +20,17 @@ export class BillPageComponent implements OnInit, OnDestroy {
 
   isLoaded = false;
 
-  constructor(private billService: BillService) {}
+  constructor(
+    private billService: BillService,
+    private meta: Meta,
+    private title: Title
+  ) {
+    title.setTitle('Счет');
+    meta.addTags([
+      {name: 'keywords', content: 'счет'},
+      {name: 'description', content: 'Страница счета'}
+    ]);
+  }
 
   private getData() {
     return combineLatest(

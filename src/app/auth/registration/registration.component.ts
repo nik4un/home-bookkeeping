@@ -1,10 +1,10 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { UsersService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/user.model';
-import { fadeStateTrigger } from '../../shared/animation/fade.animation';
 
 @Component({
   selector: 'hb-registration',
@@ -19,8 +19,16 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private meta: Meta,
+    private title: Title
+  ) {
+    title.setTitle('Регистрация в системе');
+    meta.addTags([
+                   { name: 'keywords', content: 'регистрация, система' },
+                   { name: 'description', content: 'Страница для регистрации в системе' }
+                 ]);
+    }
 
   ngOnInit() {
     this.form = new FormGroup({

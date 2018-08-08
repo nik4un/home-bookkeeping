@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs/operators';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { Category } from '../shared/models/category.model';
 import { CategoriesService } from '../shared/services/categories.service';
@@ -13,7 +14,17 @@ export class RecordsPageComponent implements OnInit {
   categories: Category[] = [];
   isLoaded = false;
 
-  constructor(private categoriesService: CategoriesService) { }
+  constructor(
+    private categoriesService: CategoriesService,
+    private meta: Meta,
+    private title: Title
+  ) {
+    title.setTitle('Запись');
+    meta.addTags([
+      { name: 'keywords', content: 'запись' },
+      { name: 'description', content: 'Страница записей' }
+    ]);
+  }
 
   ngOnInit() {
     this.categoriesService.getCategory()

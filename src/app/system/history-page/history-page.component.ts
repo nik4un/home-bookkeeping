@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs/index';
 import { delay } from 'rxjs/operators';
 import * as moment from 'moment';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { CategoriesService } from '../shared/services/categories.service';
 import { EventsService } from '../shared/services/events.service';
@@ -23,7 +24,16 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
   filteredEvents: CategoryEvent[] = [];
 
   constructor(private categoryService: CategoriesService,
-              private eventService: EventsService) { }
+              private eventService: EventsService,
+              private meta: Meta,
+              private title: Title
+  ) {
+    title.setTitle('История');
+    meta.addTags([
+      {name: 'keywords', content: 'история'},
+      {name: 'description', content: 'Страница истории операций'}
+    ]);
+  }
 
   ngOnInit() {
     this.sub = combineLatest(

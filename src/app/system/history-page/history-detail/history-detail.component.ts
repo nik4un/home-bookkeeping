@@ -7,6 +7,7 @@ import { EventsService } from '../../shared/services/events.service';
 import { CategoriesService } from '../../shared/services/categories.service';
 import { CategoryEvent } from '../../shared/models/event.model';
 import { Category } from '../../shared/models/category.model';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'hb-history-detail',
@@ -20,9 +21,19 @@ export class HistoryDetailComponent implements OnInit, OnDestroy {
   isLoaded = false;
   sub1: Subscription;
 
-  constructor(private route: ActivatedRoute,
-              private categoryService: CategoriesService,
-              private eventService: EventsService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private categoryService: CategoriesService,
+    private eventService: EventsService,
+    private meta: Meta,
+    private title: Title
+  ) {
+    title.setTitle('История');
+    meta.addTags([
+      {name: 'keywords', content: 'история, операции'},
+      {name: 'description', content: 'Страница истории операций'}
+    ]);
+  }
 
   ngOnInit() {
     this.sub1 = this.route.params

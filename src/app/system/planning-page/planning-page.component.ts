@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
+import { Meta, Title } from '@angular/platform-browser';
+import { delay } from 'rxjs/operators';
 
 import { BillService } from '../shared/services/bill.service';
 import { CategoriesService } from '../shared/services/categories.service';
 import { EventsService } from '../shared/services/events.service';
-import { delay } from 'rxjs/operators';
 import { Category } from '../shared/models/category.model';
 import { Bill } from '../shared/models/bill.model';
 import { CategoryEvent } from '../shared/models/event.model';
-
 
 @Component({
   selector: 'hb-planning-page',
@@ -23,9 +23,18 @@ export class PlanningPageComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   categoryEvents: CategoryEvent[] = [];
 
-  constructor(private billService: BillService,
-              private categoryService: CategoriesService,
-              private eventService: EventsService) {
+  constructor(
+    private billService: BillService,
+    private categoryService: CategoriesService,
+    private eventService: EventsService,
+    private meta: Meta,
+    private title: Title
+  ) {
+    title.setTitle('Планирование');
+    meta.addTags([
+      { name: 'keywords', content: 'планирование' },
+      { name: 'description', content: 'Страница планирования' }
+    ]);
   }
 
   ngOnInit() {
