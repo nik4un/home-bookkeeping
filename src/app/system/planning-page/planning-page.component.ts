@@ -43,7 +43,7 @@ export class PlanningPageComponent implements OnInit, OnDestroy {
       this.categoryService.getCategory(),
       this.eventService.getEvent()
     ).pipe(delay(150)) // искуственная задержка
-      .subscribe((data: [Bill, Category[], CategoryEvent[]]) => {
+      .subscribe((data: [any, any, any]) => {
         this.bill = data[0];
         this.categories = data[1];
         this.categoryEvents = data[2];

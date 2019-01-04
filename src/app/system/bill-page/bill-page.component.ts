@@ -34,19 +34,19 @@ export class BillPageComponent implements OnInit, OnDestroy {
 
   private getData() {
     return combineLatest(
-      this.billService.getBill()
-      // this.billService.getCurrency()
+      this.billService.getBill(),
+      this.billService.getCurrency()
     ).pipe(delay(150)) // искуственная задержка
       .subscribe((data) => {
       this.bill = data[0];
-      this.currency = {
+      /*this.currency = {
         base: 'EUR',
         date: '2018-07-04',
         rates: {'RUB': 73.739646, 'USD': 1.165229, 'EUR': 1, 'BTC': 0.000176},
         success: true,
         timestamp: 1530545348,
-      };
-      // this.currency = data[1];
+      };*/
+      this.currency = data[1];
       this.isLoaded = true;
     });
   }

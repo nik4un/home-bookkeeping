@@ -6,6 +6,6 @@ export class CategoryEvent {
     public date: string,
     public description: string,
     public id?: number,
-    public name?: srting
+    public name?: string
   ) { }
 }

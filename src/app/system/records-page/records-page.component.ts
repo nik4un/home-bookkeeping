@@ -29,7 +29,7 @@ export class RecordsPageComponent implements OnInit {
   ngOnInit() {
     this.categoriesService.getCategory()
       .pipe(delay(250)) // искуственная задержка
-      .subscribe((categories: Category[]) => {
+      .subscribe((categories: any) => {
         this.categories = categories;
         this.isLoaded = true;
       });

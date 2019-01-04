@@ -40,7 +40,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
       this.categoryService.getCategory(),
       this.eventService.getEvent()
     ).pipe(delay(150)) // искуственная задержка
-      .subscribe((data: [Category[], CategoryEvent[]]) => {
+      .subscribe((data: [any, any]) => {
         this.categories = data[0];
         this.categoryEvents = data[1];
         this.initFilteredEvents();

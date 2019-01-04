@@ -7,7 +7,7 @@ import { Category } from '../../shared/models/category.model';
   templateUrl: './history-filter.component.html',
   styleUrls: ['./history-filter.component.scss']
 })
-export class HistoryFilterComponent implements OnInit {
+export class HistoryFilterComponent {
 
   @Input() categories: Category[] = [];
 
