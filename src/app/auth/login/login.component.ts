@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup; // передаем эту переменную в шаблон в тег form в качестве параметра для бандинга
   message: Message;
-  private nameInit = 'null@mail.ru';
+  private nameInit = '';
 
   constructor(
     private usersService: UsersService,
