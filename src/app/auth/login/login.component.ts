@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
-import { UsersService } from '../../shared/services/users.service';
 import { Message } from '../../shared/models/message.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { fadeStateTrigger } from '../../shared/animation/fade.animation';
@@ -20,8 +19,12 @@ export class LoginComponent implements OnInit {
   message: Message;
   private nameInit = '';
 
+  errorLoginMessage = {
+    'auth/user-not-found': 'Такого пользователя не существует',
+    'auth/wrong-password': 'Неверный пароль'
+  };
+
   constructor(
-    private usersService: UsersService,
     private authService: AuthService,
     private router: Router, // для реализации роутинга
     private route: ActivatedRoute,
@@ -67,30 +70,25 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const formData = this.form.value;
+    const email = formData.email;
+    const password = formData.password;
 
-    this.usersService.
-      getUserByEmail(formData.email)
-      .subscribe((data) => {
-        if (data[0]) {
-          if (data[0].password === formData.password) {
-            this.message.text = '';
-            // window.localStorage.setItem принимает две строки ключ и значение
-            // JSON.stringify(obj) - оборачивает объект obj в строку
-            const user = {
-              'id': data[0].id,
-              'name': data[0].name
-            };
-            window.localStorage.setItem('user', JSON.stringify(user));
-            this.authService.login();
-            // редирект на главную страницу приложения модуля system
-            this.router.navigate(['/system', 'bill']);
-          } else {
-            this.showMessage(`Пароль не верный`);
-          }
-        } else {
-          this.showMessage(`Такого пользователя не существует`);
-        }
-      });
+    this.authService.login(email, password).subscribe(
+      (data) => {
+        this.message.text = '';
+        const user = Object.assign({}, data);
+        window.localStorage.setItem('user', JSON.stringify(user));
+          // console.log(data);
+      },
+      (err) => {
+        // code: "auth/user-not-found"
+        // code: "auth/wrong-password"
+        this.showMessage(this.errorLoginMessage[err.code]);
+      },
+      () => {
+        this.router.navigate(['/system', 'bill']);
+      }
+    );
   }
 
 }

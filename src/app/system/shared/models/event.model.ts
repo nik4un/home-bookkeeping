@@ -2,10 +2,10 @@ export class CategoryEvent {
   constructor(
     public type: string,
     public amount: number,
-    public category: number,
+    public category: string,
     public date: string,
     public description: string,
-    public id?: number,
+    public id?: string,
     public name?: string
   ) { }
 }

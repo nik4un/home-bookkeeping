@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Subscription } from 'rxjs/index';
-import { delay } from 'rxjs/operators';
+import { combineLatest, Subscription  } from 'rxjs';
 import * as moment from 'moment';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -39,8 +38,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     this.sub = combineLatest(
       this.categoryService.getCategory(),
       this.eventService.getEvent()
-    ).pipe(delay(150)) // искуственная задержка
-      .subscribe((data: [any, any]) => {
+    ).subscribe((data: [any, any]) => {
         this.categories = data[0];
         this.categoryEvents = data[1];
         this.initFilteredEvents();
@@ -56,7 +54,6 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
 
   calculateChartData(): void {
     this.chartData = [];
-
     this.categories.forEach((category) => {
       const categoryEvent = this.filteredEvents
         .filter((el) => el.category === category.id && el.type === 'outcome');
@@ -64,6 +61,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
         name: category.name,
         value: categoryEvent.reduce((acc, item) => acc + item.amount, 0)
       });
+      console.log(this.chartData);
     });
   }
 

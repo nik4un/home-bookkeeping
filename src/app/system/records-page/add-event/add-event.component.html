@@ -24,8 +24,8 @@
             (change)="onCategoryChange()"
           >
             <option
-              *ngFor="let c of categories"
-              [value]="c.id"
+              *ngFor="let c of categories; let i = index"
+              [value]="i"
             >{{ c.name }}
             </option>
 

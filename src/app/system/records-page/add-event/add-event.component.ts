@@ -1,15 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { Category } from '../../shared/models/category.model';
 import { Message } from '../../../shared/models/message.model';
-import { CategoryEvent } from '../../shared/models/event.model';
 import { EventsService } from '../../shared/services/events.service';
 import { BillService } from '../../shared/services/bill.service';
 import { Bill } from '../../shared/models/bill.model';
-import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'hb-add-event',
@@ -20,7 +20,7 @@ export class AddEventComponent implements OnInit, OnDestroy {
 
   @Input()  categories: Category[] = [];
 
-  selectedCategoryId = 1;
+  selectedCategoryId = 0;
   selectedCategory: Category;
   eventTypes = [
     { type: 'income', label: 'Доход' },
@@ -38,13 +38,18 @@ export class AddEventComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    const { eventType, amount, description } = form.value;
-    const categoryEvent = new CategoryEvent(
-      eventType, amount, this.selectedCategoryId,
-      moment(new Date()).format('DD.MM.YYYY HH:mm:ss'), description);
+    const { eventType, amount, category, description } = form.value;
+    const categoryEvent = {
+      type: eventType,
+      amount,
+      category: this.categories[category].id,
+      date:  moment(new Date()).format('DD.MM.YYYY HH:mm:ss'),
+      description
+      };
 
     this.sub1 = this.billService.getBill()
       .subscribe((bill: Bill) => {
+        console.log('Bill:', bill);
         let newBill = 0;
         if (eventType === 'outcome') {
           if (amount > bill.value) {
@@ -80,7 +85,7 @@ export class AddEventComponent implements OnInit, OnDestroy {
 
   onCategoryChange() {
     this.selectedCategory = this.categories
-      .find((c) => c.id === +this.selectedCategoryId);
+      .find((c) => c.id === this.categories[this.selectedCategoryId].id);
   }
 
   ngOnDestroy() {

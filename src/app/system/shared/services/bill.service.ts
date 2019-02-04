@@ -1,22 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import * as firebase from 'firebase/app';
+import 'firebase/firebase-database';
 
 import { Bill } from '../models/bill.model';
-import { BaseApi } from '../../../shared/core/base-api';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Injectable()
-export class BillService extends BaseApi {
-  constructor(public http: HttpClient) { // здесь используем public
-    super(http);
+export class BillService {
+  constructor(public http: HttpClient,
+              private authService: AuthService) { // здесь используем public
   }
 
   getBill(): Observable<Bill> {
-    return  this.get(`bill`);
+    const target = firebase.database().ref(`users/${this.authService.getUserId()}/bill`);
+    return from(
+      target.once('value')
+        .then((snapshot) => {
+          return snapshot.val();
+        })
+    );
   }
 
   updateBill(bill): Observable<Bill> {
-    return  this.put(`bill`, bill);
+    const target = firebase.database().ref(`users/${this.authService.getUserId()}/bill`);
+    return from(target.update(bill));
   }
 
   getCurrency() {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { delay } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { Category } from '../shared/models/category.model';
@@ -28,10 +27,11 @@ export class RecordsPageComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesService.getCategory()
-      .pipe(delay(250)) // искуственная задержка
       .subscribe((categories: any) => {
-        this.categories = categories;
-        this.isLoaded = true;
+        if (categories) {
+          this.categories = categories;
+          this.isLoaded = true;
+        }
       });
   }
 

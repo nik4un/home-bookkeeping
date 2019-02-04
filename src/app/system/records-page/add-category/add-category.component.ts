@@ -27,8 +27,10 @@ export class AddCategoryComponent implements  OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const { name, capacity } = form.value;
-    const category = new Category(name, capacity);
-
+    const category = {
+      name,
+      capacity
+    };
     this.sub1 = this.categoriesService.addCategory(category)
       .subscribe((newCategory: Category) => {
         this.categoryAdd.emit(newCategory);

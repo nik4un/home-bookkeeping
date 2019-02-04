@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
-import { UsersService } from '../../shared/services/users.service';
-import { User } from '../../shared/models/user.model';
+// import { UsersService } from '../../shared/services/users.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { Message } from '../../shared/models/message.model';
 
 @Component({
   selector: 'hb-registration',
@@ -16,9 +17,17 @@ export class RegistrationComponent implements OnInit {
   // создаем переменную для работы с формой,
   // передаем эту переменную в шаблон в тег form в качестве параметра для бандинга
   form: FormGroup;
+  message: Message;
+
+  errorRegMessage = {
+    'auth/email-already-in-use': 'Данный email уже зерегистрирован',
+    'auth/operation-not-allowed': 'Операция не разрешена',
+    'auth/weak-password': 'Слабый пароль',
+    'auth/invalid-email': 'Некорректный email',
+  };
 
   constructor(
-    private usersService: UsersService,
+    private authService: AuthService,
     private router: Router,
     private meta: Meta,
     private title: Title
@@ -31,10 +40,11 @@ export class RegistrationComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.message = new Message( '', '');
     this.form = new FormGroup({
       // создаем необходимые контролы
       'email': new FormControl('ussr@mail.ru',
-        [Validators.required, Validators.email], this.forbiddenEmails.bind(this)),
+        [Validators.required, Validators.email]/*, this.forbiddenEmails.bind(this)*/),
       'password': new FormControl(null,
         [Validators.required, Validators.minLength(6)]),
       'name': new FormControl('NoName',
@@ -44,30 +54,31 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
+  private showMessage( text: string, type: string = 'danger') {
+    this.message = new Message(type, text);
+    window.setTimeout(() => {
+      this.message.text = '';
+    }, 5000);
+  }
+
   onSubmit() {
-    const { email, password, name } = this.form.value;
-    const user = new User(email, password, name);
+    const {email, password, name} = this.form.value;
+    // const user = new User(email, password, name);
 
-    this.usersService
-      .createNewUser(user)
-      .subscribe((data) => {
-        console.log('User data:', data);
-        this.router.navigate(['/login'], {
-          queryParams: { login: data['email'] }
-      });
-      });
+    this.authService.registration(email, password, name).subscribe(
+      () => {
+      },
+      (err) => {
+        // auth/email-already-in-use
+        // auth/invalid-email
+        // auth/operation-not-allowed
+        // auth/weak-password
+        this.showMessage(this.errorRegMessage[err.code]);
+      },
+      () => {
+        this.router.navigate(['/system', 'bill']);
+      }
+    );
   }
 
-  forbiddenEmails(control: FormControl): Promise<any> {
-    return  new Promise<any>((resolve) => {
-      this.usersService.getUserByEmail(control.value)
-        .subscribe((data: Array<User>) => {
-          if (data[0]) {
-            resolve({forbiddenEmail: true}); // объект для асинхронного валидатора
-          } else {
-            resolve(null); // проверяемый email в базе не зарегистрирован
-          }
-        });
-    });
-  }
 }

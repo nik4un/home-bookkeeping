@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { Category } from '../../shared/models/category.model';
 import { CategoriesService } from '../../shared/services/categories.service';
 import { Message } from '../../../shared/models/message.model';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hb-edit-category',
@@ -16,7 +16,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
   @Input() categories: Category[] = [];
   @Output() categoryEdit = new EventEmitter<Category>();
 
-  selectedCategoryId = 1;
+  selectedCategoryId = 0;
   selectedCategory: Category;
   message: Message;
   sub1: Subscription;
@@ -34,16 +34,17 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
     this.selectedCategory.capacity = capacity;
 
     this.sub1 = this.categoriesService.updateCategory(this.selectedCategory)
-      .subscribe((editedCategory: Category) => {
-        this.categoryEdit.emit(editedCategory);
+      .subscribe(() => {
+        // this.categoryEdit.emit(editedCategory);
         this.message.text = 'Категория успешно отредактирована.';
         window.setTimeout(() => this.message.text = '', 2000);
       });
   }
 
   onCategoryChange() {
+    // this.selectedCategory = this.categories[this.selectedCategoryId];
     this.selectedCategory = this.categories
-      .find((c) => c.id === +this.selectedCategoryId);
+      .find((c) => c.id === this.categories[this.selectedCategoryId].id);
   }
 
   ngOnDestroy() {

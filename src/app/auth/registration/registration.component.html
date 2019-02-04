@@ -1,5 +1,12 @@
 <div class="auth-content">
   <p class="text-xs-center">Регистрация для получения доступа</p>
+  <div
+    @fade
+    class="alert alert-{{ message.type }}"
+    *ngIf="message.text"
+  >
+    {{ message.text }}
+  </div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div
       class="form-group"

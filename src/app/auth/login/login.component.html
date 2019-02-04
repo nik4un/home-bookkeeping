@@ -3,7 +3,9 @@
   @fade
   class="alert alert-{{ message.type }}"
   *ngIf="message.text"
->{{ message.text }}</div>
+>
+  {{ message.text }}
+</div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div
     class="form-group"
